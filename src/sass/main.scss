@@ -2,10 +2,17 @@
 @import './var.scss';
 @import './partials/product.scss';
 
+@import './partials/wallet.scss';
+
 .web-vending-machine {
     margin: 0 auto;
     width: 80rem;
     height: 50rem;
     border: 1px solid black;
     display:flex;
+}
+
+.vending-machine-container {
+    width: 100%;
+    display: flex;
 }
