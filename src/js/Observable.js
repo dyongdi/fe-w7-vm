@@ -1,4 +1,4 @@
-export class Observer {
+export class Observable {
   constructor() {
     this._observers = new Set();
   }

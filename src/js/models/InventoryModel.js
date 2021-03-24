@@ -1,7 +1,7 @@
 import { _ } from '../util.js';
-import { Observer } from '../Observer.js';
+import { Observable } from '../Observable.js';
 
-class InventoryModel extends Observer {
+class InventoryModel extends Observable {
   constructor() {
     super();
   }
