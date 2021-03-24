@@ -13,6 +13,11 @@ class WalletModel extends Observable {
   useMoney(money) {
     this.method -= money;
   }
+
+  getInsertedMoney() {
+    const moneyInserted = this.budget.currentInsertMoney;
+    return moneyInserted;
+  }
 }
 
 export const walletModel = new WalletModel(initialBudget);
