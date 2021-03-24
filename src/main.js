@@ -5,6 +5,7 @@ import { walletModel } from './js/models/WalletModel.js';
 
 const DOMTargets = {
   productLists: _.$('.products'),
+  walletLists: _.$('.wallet__lists'),
 };
 
 const main = () => {
