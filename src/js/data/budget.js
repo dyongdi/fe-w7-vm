@@ -8,5 +8,5 @@ export const initialBudget = {
     50: 3,
     10: 0,
   },
-  currentInsertMoney: 0,
+  currentInsertMoney: 2000,
 };
