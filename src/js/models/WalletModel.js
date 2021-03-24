@@ -1,12 +1,18 @@
 import { _ } from '../util.js';
-import { Observer } from '../Observer.js';
-import { getDefaultBudget } from '../data/budget.js';
+import { Observable } from '../Observable.js';
+import { initialBudget } from '../data/budget.js';
 
-class WalletModel extends Observer {
-  constructor() {
+class WalletModel extends Observable {
+  constructor(initialBudget) {
     super();
-    this.budget = getDefaultBudget();
+    this.budget = initialBudget;
+  }
+
+  init() {}
+
+  useMoney(money) {
+    this.method -= money;
   }
 }
 
-export const test = new WalletModel();
+export const walletModel = new WalletModel(initialBudget);
