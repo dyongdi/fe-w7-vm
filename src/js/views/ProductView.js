@@ -22,6 +22,9 @@ class ProductView {
 
   handleClickProduct({ target }) {
     if (!target.closest('.product__name')) return;
+    const product = target.closest('.product__name');
+    const productPrice = product.nextElementSibling.textContent;
+    this.walletModel.useCurrentInsertMoney(productPrice);
   }
 
   renderDefaultProductLists() {
