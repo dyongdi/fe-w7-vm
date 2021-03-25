@@ -13,16 +13,15 @@ class WalletModel extends Observable {
 
   getTotalBudget() {
     const currWallet = this.budget.myMoney;
-    let totalBudget;
+    let totalBudget = 0;
     for(const money in currWallet) {
-      totalBudget += money * currWallet[money];
+      totalBudget += Number(money) * currWallet[money];
     }
     return totalBudget;
   }
 
-  getinsertedMoney(money) {
-    this.budget -= money;
-    
+  getInsertedMoney() {
+    return this.budget.currentInsertMoney;
   }
 
   getReturnedMoney() {
