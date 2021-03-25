@@ -1,11 +1,13 @@
-import { insertTemplate, _ } from '../util.js';
-import { makeWalletTemplate } from '../templates/HTMLTemplates.js';
+import { insertTemplate, _, debounce } from '../util.js';
+import { makeWalletTemplate, makeTotalBudgetTemplate } from '../templates/HTMLTemplates.js';
 
 class WalletView {
   constructor({ walletLists, budget }, walletModel) {
     this.$walletArea = walletLists;
     this.$budget = budget;
     this.walletModel = walletModel;
+    this.debouncer = this.hasNoInteration();
+    this.currentMoney;
     this.init();
   }
 
@@ -22,7 +24,10 @@ class WalletView {
       const template = makeWalletTemplate(money, count);
       return prev += template;
     }, '');
+    const totalBudget = this.walletModel.getTotalBudget();
+    const totalBudgetTemplete = makeTotalBudgetTemplate(totalBudget);
     insertTemplate(this.$walletArea, 'beforeend', walletTemplate);
+    insertTemplate(this.$budget, 'beforeend', totalBudgetTemplete);
   }
 
   changeTypeObjToArr(wallet) {
@@ -38,8 +43,10 @@ class WalletView {
     if(!target.closest('.wallet__list')) return;
     const budget = this.walletModel.budget;
     const money = this.getMoneyUnit(target);
+    this.currentMoney = money;
     this.walletModel.useMoney(money);
     this.walletModel.insertMoney(money);
+    this.debouncer();
     this.walletModel.notify(budget, money);
   }
 
@@ -68,6 +75,13 @@ class WalletView {
     const totalBudget = this.walletModel.getTotalBudget();
     // 3자리마다 쉼표 붙이는 함수 여기에
     this.$budget.textContent = `${totalBudget}원`;
+  }
+
+  hasNoInteration() {
+    const ms = 3000;
+    const self = this.walletModel;
+    const callback = () => this.walletModel.notify('', this.currentMoney);
+    return debounce(this.walletModel.returnMoney.bind(self, callback), ms);
   }
 }
 

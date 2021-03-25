@@ -17,4 +17,10 @@ const makeWalletTemplate = (moneyType, count) => {
   `
 }
 
-export { productsTemplate, makeWalletTemplate };
+const makeTotalBudgetTemplate = (totalBudget) => {
+  return `
+  <span>${totalBudget}원</span>
+  `
+}
+
+export { productsTemplate, makeWalletTemplate, makeTotalBudgetTemplate };
