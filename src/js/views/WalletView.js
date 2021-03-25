@@ -7,7 +7,7 @@ class WalletView {
     this.$budget = budget;
     this.walletModel = walletModel;
     this.debouncer = this.hasNoInteration();
-    this.currentMoney;
+    this.currentMoneyUnit;
     this.init();
   }
 
@@ -40,14 +40,15 @@ class WalletView {
   }
 
   handleClickWalletArea({ target }) {
-    if(!target.closest('.wallet__list')) return;
+    if(!target.closest('.money__button')) return;
     const budget = this.walletModel.budget;
     const money = this.getMoneyUnit(target);
-    this.currentMoney = money;
+    if(this.walletModel.isMoneyCountZero(budget, money)) return;
+    this.currentMoneyUnit = money;
     this.walletModel.useMoney(money);
     this.walletModel.insertMoney(money);
-    this.debouncer();
     this.walletModel.notify(budget, money);
+    this.debouncer();
   }
 
   getMoneyUnit(target) {
@@ -55,12 +56,19 @@ class WalletView {
     return Number(money);
   }
 
-  updateView(_ , money) {
-    this.changeMoneyUnitCount(money);
+  updateView() {
+    const allInsertedMoney = this.walletModel.getInsertedMoney();
+    this.changeMoneyUnitCount(allInsertedMoney);
     this.changeAmountOfMoney();
   }
 
-  changeMoneyUnitCount(money) {
+  changeMoneyUnitCount(allInsertedMoney) {
+    allInsertedMoney.forEach((money) => {
+      this.reRenderEachMoneyCount(money);
+    });
+  }
+
+  reRenderEachMoneyCount(money) {
     const clickedMoneyUnits = Array.from(_.$All('.money__button'));
     const clickedMoneyUnit = clickedMoneyUnits.filter((unit) => {
       const moneyUnit = Number(unit.textContent.slice(0, -1));
@@ -68,7 +76,7 @@ class WalletView {
     })[0];
     const clickedMoneyCount = clickedMoneyUnit.nextElementSibling;
     const currentMoneyUnitCount = this.walletModel.getMoneyCount(money);
-    clickedMoneyCount.textContent = `${currentMoneyUnitCount}개`;
+    clickedMoneyCount.textContent = `${currentMoneyUnitCount}개`;  
   }
 
   changeAmountOfMoney() {
@@ -78,10 +86,10 @@ class WalletView {
   }
 
   hasNoInteration() {
-    const ms = 3000;
+    const ms = 5000;
     const self = this.walletModel;
-    const callback = () => this.walletModel.notify('', this.currentMoney);
-    return debounce(this.walletModel.returnMoney.bind(self, callback), ms);
+    const notify = () => this.walletModel.notify('', this.currentMoneyUnit);
+    return debounce(this.walletModel.returnMoney.bind(self, notify), ms);
   }
 }
 
