@@ -37,9 +37,7 @@ class ProductView {
 
   updateView({ currentInsertMoney }) {
     const priceLists = this.getPriceLists();
-    if (currentInsertMoney === 0) {
-      return this.clearProductAvailability(priceLists);
-    }
+    this.clearProductAvailability(priceLists, currentInsertMoney);
     this.isProductAvailable(priceLists, currentInsertMoney);
   }
 
@@ -59,11 +57,15 @@ class ProductView {
     products.forEach((product) => _.addClass(product, 'available'));
   }
 
+  removeAvailability(products) {
+    products.forEach((product) => _.rmClass(product, 'available'));
+  }
+
   clearProductAvailability(priceLists) {
-    priceLists.forEach((list) => {
-      const product = list.previousSibling;
-      product.classLists?.remove('available');
-    });
+    const productSelected = priceLists.map(
+      (price) => price.previousElementSibling
+    );
+    this.removeAvailability(productSelected);
   }
 }
 
