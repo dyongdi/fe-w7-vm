@@ -6,7 +6,6 @@ class WalletModel extends Observable {
   constructor(initialBudget) {
     super();
     this.budget = initialBudget;
-    this.insertedMoney = this.budget.currentInsertMoney;
   }
 
   init() {}
@@ -34,6 +33,10 @@ class WalletModel extends Observable {
       totalBudget += Number(money) * currWallet[money];
     }
     return totalBudget;
+  }
+
+  insertMoney(money) {
+    this.budget.currentInsertMoney += money;
   }
 
   getInsertedMoney() {

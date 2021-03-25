@@ -13,7 +13,6 @@ const DOMTargets = {
 const main = () => {
   new ProductView(DOMTargets, productModel, walletModel);
   new WalletView(DOMTargets, walletModel);
-  console.log(walletModel.getTotalBudget());
 };
 
 main();
