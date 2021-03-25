@@ -13,6 +13,7 @@ class ProductView {
   init() {
     this.renderDefaultProductLists();
     this.onEvents();
+    this.walletModel.subscribe(this.updateView.bind(this));
   }
 
   onEvents() {
@@ -31,9 +32,35 @@ class ProductView {
     insertTemplate(this.$productLists, 'beforeend', defaultTemplate);
   }
 
-  updateView() {
-    const moneyInserted = this.walletModel.getInsertedMoney();
-    if (moneyInserted === 0) return;
+  updateView({ currentInsertMoney }) {
+    const priceLists = this.getPriceLists();
+    if (currentInsertMoney === 0) {
+      return this.clearProductAvailability(priceLists);
+    }
+    this.isProductAvailable(priceLists, currentInsertMoney);
+  }
+
+  getPriceLists() {
+    const priceLists = Array.from(_.$All('.price'));
+    return priceLists;
+  }
+
+  isProductAvailable(priceLists, currentInsertMoney) {
+    const productSelected = priceLists
+      .filter((price) => Number(price.textContent) <= currentInsertMoney)
+      .map((price) => price.previousElementSibling);
+    this.changeAvailability(productSelected);
+  }
+
+  changeAvailability(products) {
+    products.forEach((product) => _.addClass(product, 'available'));
+  }
+
+  clearProductAvailability(priceLists) {
+    priceLists.forEach((list) => {
+      const product = list.previousSibling;
+      product.classLists?.remove('available');
+    });
   }
 }
 
