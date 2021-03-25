@@ -9,8 +9,6 @@ class WalletModel extends Observable {
     this.insertedMoney = [];
   }
 
-  init() {}
-
   useMoney(money) {
     const myMoney = this.budget.myMoney[money];
     if (myMoney === 0) return;
@@ -42,17 +40,17 @@ class WalletModel extends Observable {
   }
 
   getInsertedMoney() {
-    return this.currentInsertMoney;
+    return this.insertedMoney;
   }
 
-  returnMoney(callback) {
+  returnMoney(notifyCallback) {
     if(this.insertedMoney.length === 0) return;
     this.insertedMoney.forEach((money) => {
       const moneyStr = String(money);
       this.budget.myMoney[moneyStr] += 1;
       this.budget.currentInsertMoney -= money;
     })
-    callback();
+    notifyCallback();
     this.clearInsertedMoneyMemory();
   }
 
@@ -60,7 +58,9 @@ class WalletModel extends Observable {
     this.insertedMoney = [];
   }
 
-  getReturnedMoney() {}
+  isMoneyCountZero({ myMoney }, moneyUnit) {
+    if(myMoney[moneyUnit] === 0) return true;
+  }
 }
 
 export const walletModel = new WalletModel(initialBudget);
