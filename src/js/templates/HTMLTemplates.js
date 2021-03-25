@@ -8,13 +8,13 @@ const productsTemplate = (productName, price) => {
   </li>`;
 };
 
-const walletTemplate = (moneyType, count) => {
+const makeWalletTemplate = (moneyType, count) => {
   return `
   <li class="wallet__list">
-    <div><span>${moneyType}</span></div>
-    <div><span>${count}</span></div>
+    <div><span>${moneyType}원</span></div>
+    <div><span>${count}개</span></div>
   </li>
   `
 }
 
-export { productsTemplate, walletTemplate };
+export { productsTemplate, makeWalletTemplate };
