@@ -12,11 +12,14 @@ class WalletModel extends Observable {
   init() {}
 
   useMoney(money) {
+    const myMoney = this.budget.myMoney[money];
+    if(myMoney === 0) return;
     this.budget.myMoney[money]--;
   }
 
   getMoneyCount(moneyUnit) {
-    return this.budget.myMoney[moneyUnit];
+    const currentMoneyUnitCount = this.budget.myMoney[moneyUnit];
+    return currentMoneyUnitCount;
   }
 
   getTotalBudget() {

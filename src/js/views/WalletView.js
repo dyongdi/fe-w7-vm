@@ -49,16 +49,18 @@ class WalletView {
   }
 
   updateView(money) {
+    this.changeMoneyUnitCount(money);
+  }
+
+  changeMoneyUnitCount(money) {
     const clickedMoneyUnits = Array.from(_.$All('.money__button'));
     const clickedMoneyUnit = clickedMoneyUnits.filter((unit) => {
       const moneyUnit = Number(unit.textContent.slice(0, -1));
       return moneyUnit === money;
     })[0];
     const clickedMoneyCount = clickedMoneyUnit.nextElementSibling;
-  }
-  
-  render() {
-
+    const currentMoneyUnitCount = this.walletModel.getMoneyCount(money);
+    clickedMoneyCount.textContent = `${currentMoneyUnitCount}개`;
   }
 }
 
