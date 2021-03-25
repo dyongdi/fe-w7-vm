@@ -13,8 +13,13 @@ class WalletModel extends Observable {
 
   useMoney(money) {
     const myMoney = this.budget.myMoney[money];
-    if(myMoney === 0) return;
+    if (myMoney === 0) return;
     this.budget.myMoney[money]--;
+  }
+
+  useCurrentInsertMoney(price) {
+    if (this.budget.currentInsertMoney <= 0) return;
+    this.budget.currentInsertMoney -= price;
   }
 
   getMoneyCount(moneyUnit) {
@@ -25,7 +30,7 @@ class WalletModel extends Observable {
   getTotalBudget() {
     const currWallet = this.budget.myMoney;
     let totalBudget = 0;
-    for(const money in currWallet) {
+    for (const money in currWallet) {
       totalBudget += Number(money) * currWallet[money];
     }
     return totalBudget;
@@ -35,9 +40,7 @@ class WalletModel extends Observable {
     return this.currentInsertMoney;
   }
 
-  getReturnedMoney() {
-
-  }
+  getReturnedMoney() {}
 }
 
 export const walletModel = new WalletModel(initialBudget);
