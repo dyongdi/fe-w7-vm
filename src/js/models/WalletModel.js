@@ -11,6 +11,14 @@ class WalletModel extends Observable {
 
   init() {}
 
+  useMoney(money) {
+    this.budget.myMoney[money]--;
+  }
+
+  getMoneyCount(moneyUnit) {
+    return this.budget.myMoney[moneyUnit];
+  }
+
   getTotalBudget() {
     const currWallet = this.budget.myMoney;
     let totalBudget = 0;

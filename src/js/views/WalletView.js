@@ -32,16 +32,29 @@ class WalletView {
   }
 
   onEvents() {
-    _.on(this.$walletArea, 'click', this.handleClickWalletArea);
+    _.on(this.$walletArea, 'click', this.handleClickWalletArea.bind(this));
   }
 
   handleClickWalletArea({ target }) {
     if(!target.closest('.wallet__list')) return;
-
+    const money = this.getMoneyUnit(target);
+    console.log(money);
+    this.walletModel.useMoney(money);
+    this.walletModel.notify(money);
   }
 
-  updateView() {
+  getMoneyUnit(target) {
+    const money = target.closest('.money__button').textContent.slice(0, -1);
+    return Number(money);
+  }
 
+  updateView(money) {
+    const clickedMoneyUnits = Array.from(_.$All('.money__button'));
+    const clickedMoneyUnit = clickedMoneyUnits.filter((unit) => {
+      const moneyUnit = Number(unit.textContent.slice(0, -1));
+      return moneyUnit === money;
+    })[0];
+    const clickedMoneyCount = clickedMoneyUnit.nextElementSibling;
   }
   
   render() {
