@@ -21,9 +21,14 @@
         padding: 1rem;
         outline: 0;
         background-color: transparent;
+        cursor: pointer;
     }
     
     .available {
         border: 1px solid red;
+    }
+
+    .available:active {
+        transform: scale(1.1);
     }
 }
