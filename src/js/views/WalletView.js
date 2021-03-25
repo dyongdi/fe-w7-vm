@@ -6,7 +6,7 @@ class WalletView {
     this.$walletArea = walletLists;
     this.$budget = budget;
     this.walletModel = walletModel;
-    this.debouncer = this.hasNoInteration();
+    this.debounceReturnMoney = this.hasNoInteration();
     this.currentMoneyUnit;
     this.init();
   }
@@ -48,7 +48,7 @@ class WalletView {
     this.walletModel.useMoney(money);
     this.walletModel.insertMoney(money);
     this.walletModel.notify(budget, money);
-    this.debouncer();
+    this.debounceReturnMoney();
   }
 
   getMoneyUnit(target) {

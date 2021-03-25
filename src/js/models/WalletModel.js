@@ -44,7 +44,6 @@ class WalletModel extends Observable {
   }
 
   returnMoney(notifyCallback) {
-    console.log(this.insertedMoney);
     if(this.insertedMoney.length === 0) return;
     this.insertedMoney.forEach((money) => {
       const moneyStr = String(money);
