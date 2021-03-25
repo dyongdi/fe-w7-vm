@@ -8,7 +8,7 @@ export class Observable {
   unsubscribe(observer) {
     this._observers.delete(observer);
   }
-  notify(data) {
-    this._observers.forEach((observer) => observer(data));
+  notify(data, ...args) {
+    this._observers.forEach((observer) => observer(data, ...args));
   }
 }
