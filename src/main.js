@@ -9,6 +9,8 @@ const DOMTargets = {
   productLists: _.$('.products'),
   walletLists: _.$('.wallet__lists'),
   budget: _.$('.budget'),
+  insertView: _.$('.money'),
+  returnButton: _.$('.screen__button'),
 };
 
 const main = () => {
