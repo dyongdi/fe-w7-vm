@@ -11,7 +11,7 @@ const productsTemplate = (productName, price) => {
 const makeWalletTemplate = (moneyType, count) => {
   return `
   <li class="wallet__list">
-    <div><span>${moneyType}원</span></div>
+    <button class="money__button"><span>${moneyType}원</span></button>
     <div><span>${count}개</span></div>
   </li>
   `
