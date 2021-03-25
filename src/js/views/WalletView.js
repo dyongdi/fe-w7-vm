@@ -4,8 +4,9 @@ import { walletModel } from '../models/WalletModel.js';
 import { makeWalletTemplate } from '../templates/HTMLTemplates.js';
 
 class WalletView {
-  constructor(DOMTargets, walletModel) {
-    this.$walletArea = DOMTargets.walletLists;
+  constructor({ walletLists, budget }, walletModel) {
+    this.$walletArea = walletLists;
+    this.$budget = budget;
     this.walletModel = walletModel;
     this.init();
   }
@@ -50,6 +51,7 @@ class WalletView {
 
   updateView(money) {
     this.changeMoneyUnitCount(money);
+    this.changeAmountOfMoney();
   }
 
   changeMoneyUnitCount(money) {
@@ -61,6 +63,12 @@ class WalletView {
     const clickedMoneyCount = clickedMoneyUnit.nextElementSibling;
     const currentMoneyUnitCount = this.walletModel.getMoneyCount(money);
     clickedMoneyCount.textContent = `${currentMoneyUnitCount}개`;
+  }
+
+  changeAmountOfMoney() {
+    const totalBudget = this.walletModel.getTotalBudget();
+    // 3자리마다 쉼표 붙이는 함수 여기에
+    this.$budget.textContent = `${totalBudget}원`;
   }
 }
 

@@ -7,6 +7,7 @@ import { WalletView } from './js/views/WalletView.js';
 const DOMTargets = {
   productLists: _.$('.products'),
   walletLists: _.$('.wallet__lists'),
+  budget: _.$('.budget'),
 };
 
 const main = () => {
