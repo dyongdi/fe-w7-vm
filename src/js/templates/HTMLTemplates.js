@@ -8,4 +8,13 @@ const productsTemplate = (productName, price) => {
   </li>`;
 };
 
-export { productsTemplate };
+const walletTemplate = (moneyType, count) => {
+  return `
+  <li class="wallet__list">
+    <div><span>${moneyType}</span></div>
+    <div><span>${count}</span></div>
+  </li>
+  `
+}
+
+export { productsTemplate, walletTemplate };
