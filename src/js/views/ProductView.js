@@ -21,10 +21,11 @@ class ProductView {
   }
 
   handleClickProduct({ target }) {
-    if (!target.closest('.product__name')) return;
+    if (!target.closest('.available')) return;
     const product = target.closest('.product__name');
     const productPrice = product.nextElementSibling.textContent;
     this.walletModel.useCurrentInsertMoney(productPrice);
+    this.walletModel.debounceReturnMoney();
   }
 
   renderDefaultProductLists() {
