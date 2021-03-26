@@ -15,6 +15,7 @@ class WalletModel extends Observable {
     this.insertMoney(money);
     this.notify(this.budget, money);
   }
+
   useMoney(money) {
     const myMoney = this.budget.myMoney[money];
     if (myMoney === 0) return;
@@ -58,7 +59,6 @@ class WalletModel extends Observable {
       this.budget.myMoney[moneyStr] += 1;
       this.budget.currentInsertMoney -= money;
     });
-
     notifyCallback();
     this.clearInsertedMoneyMemory();
   }
@@ -69,13 +69,6 @@ class WalletModel extends Observable {
 
   isMoneyCountZero({ myMoney }, moneyUnit) {
     if (myMoney[moneyUnit] === 0) return true;
-  }
-
-  useInsertedMoney() {
-    const totalInsertedMoney = this.insertedMoney.reduce(
-      (prev, curr) => prev + curr
-    );
-    return totalInsertedMoney;
   }
 }
 
