@@ -14,21 +14,27 @@ const makeWalletTemplate = (moneyType, count) => {
     <button class="money__button"><span>${moneyType}원</span></button>
     <div><span>${count}개</span></div>
   </li>
-  `
-}
+  `;
+};
 
 const makeTotalBudgetTemplate = (totalBudget) => {
   return `
   <span>${totalBudget}원</span>
-  `
-}
-
+  `;
+};
 
 const makeProcessTemplate = (action, contents) => {
-  if(action = 'insert') return `<span>${contents}원 투입!</span>`;
-  if(action = 'return') return `<span>${contents}원 반환!</span>`;
-  if(action = 'selectProduct') return `<span>${contents}을(를) 선택</span>`;
-  if(action = 'eject') return `<span>${contents}이(가) 나왔다!</span>`;
-}
+  if (action === 'insert') return `<li><span>${contents}원 투입!</span></li>`;
+  if (action === 'return') return `<li><span>${contents}원 반환!</span></li>`;
+  if (action === 'selectProduct')
+    return `<li><span>${contents}를(을) 선택</span></li>`;
+  if (action === 'eject')
+    return `<li><span>${contents}가(이) 나왔다!</span></li>`;
+};
 
-export { productsTemplate, makeWalletTemplate, makeTotalBudgetTemplate, makeProcessTemplate };
+export {
+  productsTemplate,
+  makeWalletTemplate,
+  makeTotalBudgetTemplate,
+  makeProcessTemplate,
+};
