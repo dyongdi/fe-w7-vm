@@ -1,19 +1,23 @@
-import { _, insertTemplate } from '../util';
-import { productsTemplate } from '../templates/HTMLTemplates.js';
+import { _, insertTemplate, delay } from '../util';
+import {
+  productsTemplate,
+  makeProcessTemplate,
+} from '../templates/HTMLTemplates.js';
 
 class ProductView {
-  constructor({ productLists }, productModel, walletModel) {
+  constructor(DOMTargets, productModel, walletModel) {
     this.productModel = productModel;
     this.walletModel = walletModel;
     this.products = productModel.products;
-    this.$productLists = productLists;
+    this.$productLists = DOMTargets.productLists;
+    this.$screen = DOMTargets.processScreen;
     this.init();
   }
 
   init() {
     this.renderDefaultProductLists();
     this.onEvents();
-    this.walletModel.subscribe(this.updateView.bind(this));
+    this.walletModel.subscribe(this.updateProductView.bind(this));
   }
 
   onEvents() {
@@ -27,7 +31,9 @@ class ProductView {
     const productPrice = product.nextElementSibling.textContent;
     this.walletModel.useCurrentInsertMoney(productPrice);
     this.walletModel.debounceReturnMoney();
-    this.productModel.buyProduct(productName);
+    this.productModel.updateInventory(productName);
+    this.updateProdcessView('selectProduct', productName);
+    this.updateProdcessView('eject', productName);
   }
 
   renderDefaultProductLists() {
@@ -38,7 +44,7 @@ class ProductView {
     insertTemplate(this.$productLists, 'beforeend', defaultTemplate);
   }
 
-  updateView({ currentInsertMoney }) {
+  updateProductView({ currentInsertMoney }) {
     const priceLists = this.getPriceLists();
     const allProducts = this.getProducts();
     this.clearProductAvailability(priceLists, currentInsertMoney);
@@ -103,6 +109,12 @@ class ProductView {
       .flat();
     if (productsOutofStock.length === 0) return;
     this.isOutofStock(productsOutofStock);
+  }
+
+  async updateProdcessView(action, product) {
+    if (action === 'eject') await delay(2000);
+    const processTemplate = makeProcessTemplate(action, product);
+    insertTemplate(this.$screen, 'beforeend', processTemplate);
   }
 }
 
