@@ -15,7 +15,6 @@ class WalletModel extends Observable {
     this.insertMoney(money);
     this.notify(this.budget, money);
   }
-
   useMoney(money) {
     const myMoney = this.budget.myMoney[money];
     if (myMoney === 0) return;
@@ -59,6 +58,7 @@ class WalletModel extends Observable {
       this.budget.myMoney[moneyStr] += 1;
       this.budget.currentInsertMoney -= money;
     });
+
     notifyCallback();
     this.clearInsertedMoneyMemory();
   }
