@@ -1,11 +1,12 @@
-import { _ } from '../util.js';
-import { walletModel } from '../models/WalletModel.js';
+import { _, insertTemplate } from '../util.js';
+import { makeProcessTemplate } from '../templates/HTMLTemplates.js';
 
 class InsertMoneyView {
-  constructor({ insertView, returnButton }, walletModel) {
+  constructor({ insertView, returnButton, processScreen }, walletModel) {
     this.walletModel = walletModel;
     this.$insertView  = insertView;
     this.$returnButton = returnButton;
+    this.$screen = processScreen;
     this.init();
   }
 
@@ -28,7 +29,13 @@ class InsertMoneyView {
   handleClickReturnBtn({target}) {
     const budget = this.walletModel.budget;
     const notifyCallback = () => this.walletModel.notify(budget)
+    this.updateProdcessView('return', this.walletModel.budget.currentInsertMoney);
     this.walletModel.returnMoney(notifyCallback);
+  }
+
+  updateProdcessView(action, money) {
+    const processTemplate = makeProcessTemplate(action, money);
+    insertTemplate(this.$screen, 'beforeend', processTemplate);
   }
 }
 

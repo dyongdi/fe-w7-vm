@@ -1,13 +1,15 @@
-import { insertTemplate, _, debounce } from '../util.js';
+import { insertTemplate, _, debounce, delay } from '../util.js';
 import {
   makeWalletTemplate,
   makeTotalBudgetTemplate,
+  makeProcessTemplate,
 } from '../templates/HTMLTemplates.js';
 
 class WalletView {
-  constructor({ walletLists, budget }, walletModel) {
+  constructor({ walletLists, budget, processScreen }, walletModel) {
     this.$walletArea = walletLists;
     this.$budget = budget;
+    this.$screen = processScreen;
     this.walletModel = walletModel;
     this.walletModel.debounceReturnMoney = this.hasNoInteration();
     this.currentMoneyUnit;
@@ -53,6 +55,7 @@ class WalletView {
     this.currentMoneyUnit = money;
     this.walletModel.updateMyBudget(money);
     this.walletModel.debounceReturnMoney();
+    this.updateProdcessView('insert', money);
   }
 
   getMoneyUnit(target) {
@@ -94,6 +97,11 @@ class WalletView {
     const self = this.walletModel;
     const notify = () => this.walletModel.notify('', this.currentMoneyUnit);
     return debounce(this.walletModel.returnMoney.bind(self, notify), ms);
+  }
+
+  updateProdcessView(action, money) {
+    const processTemplate = makeProcessTemplate(action, money);
+    insertTemplate(this.$screen, 'beforeend', processTemplate);
   }
 }
 
