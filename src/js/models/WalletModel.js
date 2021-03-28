@@ -54,13 +54,24 @@ class WalletModel extends Observable {
 
   returnMoney(notifyCallback) {
     if (this.insertedMoney.length === 0) return;
-    this.insertedMoney.forEach((money) => {
-      const moneyStr = String(money);
-      this.budget.myMoney[moneyStr] += 1;
-      this.budget.currentInsertMoney -= money;
-    });
+    this.returnMoneyBiggerUnitFirst();
     notifyCallback();
     this.clearInsertedMoneyMemory();
+  }
+
+  returnMoneyBiggerUnitFirst() {
+    const moneyUnits = [10000, 5000, 1000, 500, 100];
+    const currentInsertMoney = this.budget.currentInsertMoney;
+    moneyUnits.reduce((prev, curr) => {
+      if(prev === 0) return 0;
+      const unitCount = parseInt(prev / curr);
+      this.budget.myMoney[curr] += unitCount;
+      this.budget.currentInsertMoney -= unitCount * curr;
+      for(let i = 1; i <= unitCount; i++) {
+        this.insertedMoney.push(curr);
+      }
+      return prev % curr;
+    }, currentInsertMoney);
   }
 
   clearInsertedMoneyMemory() {
